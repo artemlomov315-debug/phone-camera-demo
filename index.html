@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phone Test</title>
+<style>
+body {
+  background:#111827;
+  color:white;
+  font-family:Arial;
+  text-align:center;
+  padding:20px;
+}
+button {
+  display:block;
+  width:100%;
+  padding:16px;
+  margin:12px 0;
+  border:0;
+  border-radius:12px;
+  background:#2563eb;
+  color:white;
+  font-size:17px;
+}
+video {
+  width:100%;
+  max-width:400px;
+  border-radius:15px;
+  background:black;
+}
+</style>
+</head>
+<body>
+
+<h1>📱 Проверка телефона</h1>
+<p>Тестирование функций устройства</p>
+
+<video id="camera" autoplay playsinline muted></video>
+
+<button onclick="camera()">📷 Проверить камеру</button>
+<button onclick="microphone()">🎤 Проверить микрофон</button>
+<button onclick="locationTest()">📍 Проверить геолокацию</button>
+<button onclick="stopAll()">⛔ Выключить устройства</button>
+
+<h3>Статус:</h3>
+<p id="status">Ожидание</p>
+
+<script>
+let stream;
+
+function status(text) {
+ document.getElementById('status').innerText = text;
+}
+
+async function camera() {
+ try {
+  stream = await navigator.mediaDevices.getUserMedia({
+   video:true,
+   audio:false
+  });
+  document.getElementById('camera').srcObject = stream;
+  status('Камера включена');
+ } catch(e) {
+  status('Доступ к камере не предоставлен');
+ }
+}
+
+async function microphone() {
+ try {
+  const s = await navigator.mediaDevices.getUserMedia({
+   audio:true,
+   video:false
+  });
+  s.getTracks().forEach(t => t
